@@ -1,7 +1,7 @@
 /**
  * @fileOverview Main entry point for the server side.
  */
-(function () {
+(function() {
   function main() {
     console.log('Started server app.');
   }

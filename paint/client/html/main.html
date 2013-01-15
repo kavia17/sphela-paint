@@ -8,8 +8,19 @@
 </body>
 
 <template name="app">
-  <h1>Hello World!</h1>
-  {{greeting}}
-  <input type="button" value="Click" />
+  <div class="app">
+    <div class="canvas-container">
+      {{> canvas-container}}
+    </div>
+    <div class="side-controls">
+      {{> side-controls}}
+    </div>
+    <div class="messages">
+      {{> messages}}
+    </div>
+    <div class="canvas-browser">
+      {{> canvas-browser}}
+    </div>
+  </div>
 </template>
 
