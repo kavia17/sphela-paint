@@ -8,19 +8,22 @@
 </body>
 
 <template name="app">
-  <div class="app">
-    <div class="canvas-container">
-      {{> canvas-container}}
+  <div class="app container">
+    <div class="row">
+      <div class="canvas-container span9">
+        {{> canvas-container}}
+      </div>
+      <div class="side-controls span1 pull-right">
+        {{> side-controls}}
+      </div>
     </div>
-    <div class="side-controls">
-      {{> side-controls}}
-    </div>
-    <div class="messages">
-      {{> messages}}
-    </div>
-    <div class="canvas-browser">
-      {{> canvas-browser}}
-    </div>
+  </div>
+  <div class="messages">
+    {{> messages}}
+  </div>
+  <div class="canvas-browser">
+    {{> canvas-browser}}
+  </div>
   </div>
 </template>
 
