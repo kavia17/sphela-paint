@@ -1,9 +1,22 @@
-(function() {
+/**
+ * @fileOverview Side controls are used to manipulate the canvas in the canvas
+ * container.
+ */
+Meteor.startup(function() {
+  /**
+   * @type {Object}
+   */
+  sp.controls = {};
   if (Meteor.isClient) {
-    console.log('client');
+    function clientInit() {
+      return [];
+    }
+    sp.controls.init = clientInit;
   }
   if (Meteor.isServer) {
-    console.log('server');
+    function serverInit() {
+    }
+    sp.controls.init = serverInit;
   }
-}());
+});
 

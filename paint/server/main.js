@@ -1,11 +1,12 @@
 /**
  * @fileOverview Main entry point for the server side.
  */
-(function() {
-  function main() {
+Meteor.startup(function() {
+  /**
+   * @param {Array.<Function>} modules
+   */
+  function main(modules) {
     console.log('Started server app.');
   }
-  Meteor.startup(function () {
-    main();
-  });
-}());
+  sp.main = main;
+});

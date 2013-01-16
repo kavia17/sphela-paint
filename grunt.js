@@ -7,7 +7,7 @@ module.exports = function(grunt) {
       files: ['grunt.js', 'paint/**/*.js', 'test/**/*.js']
     },
     qunit: {
-      files: ['test/**/*.html']
+      all: ['http://localhost:8888/test/main.html']
     },
     watch: {
       files: '<config:lint.files>',
@@ -29,8 +29,8 @@ module.exports = function(grunt) {
         browser: true
       },
       globals: {
-        Meteor: true,
-        console: true
+        Meteor: false,
+        console: false
       }
     }
   });

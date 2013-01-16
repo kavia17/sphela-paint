@@ -1,8 +1,20 @@
-(function() {
+/**
+ * @fileOverview The canvas container is the main drawing area.
+ */
+Meteor.startup(function() {
+  /**
+   * @type {Object}
+   */
+  sp.container = {};
   if (Meteor.isClient) {
-    console.log('client');
+    function clientInit() {
+      return [];
+    }
+    sp.container.init = clientInit;
   }
   if (Meteor.isServer) {
-    console.log('server');
+    function serverInit() {
+    }
+    sp.container.init = serverInit;
   }
-}());
+});

@@ -1,8 +1,20 @@
-(function() {
+/**
+ * @fileOverview Messages are a way to communicate with other players.
+ */
+Meteor.startup(function() {
+  /**
+   * @type {Object}
+   */
+  sp.messages = {};
   if (Meteor.isClient) {
-    console.log('client');
+    function clientInit() {
+      return [];
+    }
+    sp.messages.init = clientInit;
   }
   if (Meteor.isServer) {
-    console.log('server');
+    function serverInit() {
+    }
+    sp.messages.init = serverInit;
   }
-}());
+});

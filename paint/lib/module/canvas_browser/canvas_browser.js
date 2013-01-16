@@ -1,9 +1,20 @@
-(function() {
+/**
+ * @fileOverview The canvas browser is the way to find public canvases.
+ */
+Meteor.startup(function() {
+  /**
+   * @type {Object}
+   */
+  sp.browser = {};
   if (Meteor.isClient) {
-    console.log('client');
+    function clientInit() {
+      return [];
+    }
+    sp.browser.init = clientInit;
   }
   if (Meteor.isServer) {
-    console.log('server');
+    function serverInit() {
+    }
+    sp.browser.init = serverInit;
   }
-}());
-
+});
