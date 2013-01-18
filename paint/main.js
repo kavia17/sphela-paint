@@ -19,10 +19,10 @@ sp.global = this;
  */
 Meteor.startup(function () {
   sp.modules = [
-    sp.container.init,
-    sp.browser.init,
-    sp.messages.init,
-    sp.controls.init
+    sp.container,
+    sp.browser,
+    sp.messages,
+    sp.controls
   ];
   //sp.router is undefined on server and ignored.
   sp.main(sp.modules, sp.router);

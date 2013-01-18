@@ -9,7 +9,7 @@ Meteor.startup(function() {
   sp.controls = {};
   if (Meteor.isClient) {
     function clientInit() {
-      return [];
+      return null;
     }
     sp.controls.init = clientInit;
   }

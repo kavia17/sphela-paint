@@ -6,11 +6,15 @@ Meteor.startup(function() {
    * @param {Array.<Function>} modules
    * @param {Function} Router
    */
-  function startClient(modules, Router) {
+  function main(modules, Router) {
     var r;
     r = new Router();
-    _.each(modules, function(init) {
-      r.initModule.apply(r, init());
+    _.each(modules, function(module) {
+      module.init();
+      if (module.routed) {
+        // Some things do not need router access.
+        r.initModule.apply(r, module.routerInit());
+      }
     });
     r.runRoute(Router.currentState());
   }

@@ -2,13 +2,14 @@
  * @fileOverview Messages are a way to communicate with other players.
  */
 Meteor.startup(function() {
+  var ROUTER_PATH;
   /**
    * @type {Object}
    */
   sp.messages = {};
   if (Meteor.isClient) {
     function clientInit() {
-      return [];
+      return null;
     }
     sp.messages.init = clientInit;
   }
