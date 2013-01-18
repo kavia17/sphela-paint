@@ -3,7 +3,7 @@
   "version": "0.3.0",
   "author": "Bjorn Tipling <bjorn@ambientchill.com>",
   "scripts": {
-      "start": "node server.js"
+      "start": "node testserver.js"
   },
   "dependencies": {
       "express": ">=3"
