@@ -2,16 +2,144 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>Refactored date examples</title>
+  <title>Testing client main</title>
   <link rel="stylesheet" href="/qunit.css">
+  <script src="http://code.jquery.com/jquery-1.9.0.min.js"></script>
+  <script src="/test/underscore.js"></script>
+  <script src="/test/meteorshim.js"></script>
   <script src="/qunit.js"></script>
+  <script src="/test/sinon.js"></script>
+  <script src="/paint/client/js/main.js"></script>
   <script>
-  test('should pass', function() {
-    equal(1, 1);
-  });
-  test('should fail', function() {
-    equal(1, 0);
-  });
+    var Router;
+    /** 
+     * Mock sp.Router
+     */
+    function createRouter() {
+      var Router, createdSpy, initModuleSpy, runRouteSpy;
+      createdSpy = sinon.spy();
+      initModuleSpy = sinon.spy();
+      runRouteSpy = sinon.spy();
+      currentStateSpy = sinon.spy();
+      Router = function() {
+        createdSpy();
+      };
+      Router.prototype.initModule = function() {
+        initModuleSpy();
+      };
+      Router.prototype.runRoute = function() {
+        runRouteSpy();
+      };
+      Router.currentState = function() {
+        currentStateSpy();
+      };
+      Router.createdSpy = createdSpy;
+      Router.initModuleSpy = initModuleSpy;
+      Router.runRouteSpy = runRouteSpy;
+      Router.currentStateSpy = currentStateSpy;
+      return Router;
+    }
+    function createMockModule(routed) {
+      var mockModule, initSpy, initRouterSpy;
+      initSpy = sinon.spy();
+      initRouterSpy = sinon.spy();
+      mockModule = {
+        init: function() {
+          initSpy();
+        },
+        routerInit: function() {
+          initRouterSpy();
+        },
+        initSpy: initSpy,
+        initRouterSpy: initRouterSpy,
+        routed: routed
+      };
+      return mockModule;
+    }
+  </script>
+  <script>
+    var R;
+    test('sp.main should exist', function() {
+      ok(sp.main, 'sp.main does not exist.');
+    });
+    QUnit.testStart(function() {
+      R = createRouter();
+    });
+    QUnit.test('sp.main should create an instance of sp.Router', function() {
+      sp.main([], R);
+      ok(R.createdSpy.calledOnce, 'Instance of Router not created.');
+    });
+    QUnit.test('sp.main should iterate through modules and call their init.',
+      function() {
+        QUnit.expect(2);
+        var m1, m2;
+        m1 = createMockModule();
+        m2 = createMockModule();
+        sp.main([m1, m2], R);
+        ok(m1.initSpy.calledOnce, 'First module init not called.');
+        ok(m2.initSpy.calledOnce, 'Second module init not called.');
+    });
+    QUnit.test('sp.main should call r.runRoute', function() {
+      sp.main([], R);
+      ok(R.runRouteSpy.calledOnce, 'Did not call runRoute');
+    });
+    QUnit.test('sp.main should call r.initModule for every routed module.',
+      function() {
+        var m1, m2, m3, m4;
+        m1 = createMockModule();
+        m2 = createMockModule(true);
+        m3 = createMockModule();
+        m4 = createMockModule(true);
+        sp.main([m1, m2, m3, m4], R);
+        QUnit.strictEqual(R.initModuleSpy.callCount, 2, 'Wrong call count.');
+    });
+    QUnit.test('sp.main should call r.currentState.',
+      function() {
+        sp.main([], R);
+        ok(R.currentStateSpy.calledOnce, 'Did not call current state once.');
+    });
+    QUnit.test('sp.main should call init for every module.', function() {
+      var modules, i;
+      QUnit.expect(4);
+      modules = [
+        createMockModule(),
+        createMockModule(true),
+        createMockModule(),
+        createMockModule(true)
+      ];
+      sp.main(modules, R);
+      for (i = 0; i < modules.length; i++) {
+        ok(modules[i].initSpy.calledOnce, 'Init spy for ' + i + ' not called.');
+      }
+    });
+    QUnit.test('sp.main should call routerInit for every routed module.',
+      function() {
+        var modules, expected, i;
+        QUnit.expect(4);
+        modules = [
+          createMockModule(),
+          createMockModule(true),
+          createMockModule(),
+          createMockModule(true)
+        ];
+        expected = [
+          false,
+          true,
+          false,
+          true
+        ];
+        sp.main(modules, R);
+        for (i = 0; i < modules.length; i++) {
+          // Explicit boolean check to avoid undefined expecteds.
+          if (expected[i] === true) {
+            ok(modules[i].initRouterSpy.calledOnce,
+            'Init router spy for ' + i + ' not called.');
+          } else if (expected[i] === false) {
+            ok(!modules[i].initRouterSpy.calledOnce,
+            'Init router spy for ' + i + ' called.');
+          }
+        }
+    });
   </script>
 </head>
 <div id="qunit"></div>
