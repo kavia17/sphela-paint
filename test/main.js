@@ -32,7 +32,7 @@
     initSpy = sinon.spy();
     initRouterSpy = sinon.spy();
     mockModule = {
-      init: function() {
+      clientInit: function() {
         initSpy();
       },
       routerInit: function() {
@@ -52,11 +52,13 @@
   QUnit.test('sp.clientMain should exist', function() {
     QUnit.ok(sp.clientMain, 'sp.clientMain does not exist.');
   });
-  QUnit.test('sp.clientMain should create an instance of sp.Router', function() {
-    sp.clientMain([], R);
-    QUnit.ok(R.createdSpy.calledOnce, 'Instance of Router not created.');
+  QUnit.test('sp.clientMain should create an instance of sp.Router',
+    function() {
+      sp.clientMain([], R);
+      QUnit.ok(R.createdSpy.calledOnce, 'Instance of Router not created.');
   });
-  QUnit.test('sp.clientMain should iterate through modules and call their init.',
+  QUnit.test(
+    'sp.clientMain should iterate through modules and call their init.',
     function() {
       QUnit.expect(2);
       var m1, m2;

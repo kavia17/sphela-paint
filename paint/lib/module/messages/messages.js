@@ -12,14 +12,14 @@ Meteor.startup(function() {
       function clientInit() {
         return null;
       }
-      sp.messages.init = clientInit;
+      sp.messages.clientInit = clientInit;
     }());
   }
   if (Meteor.isServer) {
     (function() {
       function serverInit() {
       }
-      sp.messages.init = serverInit;
+      sp.messages.serverInit = serverInit;
     }());
   }
 });

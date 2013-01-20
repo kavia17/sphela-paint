@@ -10,7 +10,7 @@ Meteor.startup(function() {
     var r;
     r = new Router();
     _.each(modules, function(module) {
-      module.init();
+      module.clientInit();
       if (module.routed) {
         // Some things do not need router access.
         r.initModule.apply(r, module.routerInit());

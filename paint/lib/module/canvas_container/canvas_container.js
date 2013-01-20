@@ -2,7 +2,7 @@
  * @fileOverview The canvas container is the main drawing area.
  */
 Meteor.startup(function() {
-  var ROUTER_PATH;
+  var ROUTER_PATH, c;
   /**
    * @type {string}
    * @const
@@ -11,7 +11,7 @@ Meteor.startup(function() {
   /**
    * @type {Object}
    */
-  sp.container = {};
+  sp.container = c = {};
   /**
    * This module needs router access.
    */
@@ -32,20 +32,21 @@ Meteor.startup(function() {
         route.setHandler(_.bind(stateHandler, this));
         return route;
       }
+      c.routeManager = routeManager;
       function clientInit() {
       }
-      sp.container.init = clientInit;
+      c.clientInit = clientInit;
       function routerInit() {
         return [routeManager, ROUTER_PATH];
       }
-      sp.container.routerInit = routerInit;
+      c.routerInit = routerInit;
     }());
   }
   if (Meteor.isServer) {
     (function() {
       function serverInit() {
       }
-      sp.container.init = serverInit;
+      sp.container.serverInit = serverInit;
     }());
   }
 });

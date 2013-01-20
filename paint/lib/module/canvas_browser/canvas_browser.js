@@ -34,7 +34,7 @@ Meteor.startup(function() {
       }
       function clientInit() {
       }
-      sp.browser.init = clientInit;
+      sp.browser.clientInit = clientInit;
       function routerInit() {
         return [routeManager, ROUTER_PATH];
       }
@@ -45,7 +45,7 @@ Meteor.startup(function() {
     (function() {
       function serverInit() {
       }
-      sp.browser.init = serverInit;
+      sp.browser.serverInit = serverInit;
     }());
   }
 });
