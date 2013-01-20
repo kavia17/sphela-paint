@@ -38,6 +38,7 @@ module.exports = function(grunt) {
         _: false,
         sinon: false,
         Meteor: false,
+        history: true,
         console: false
       }
     }

@@ -5,19 +5,12 @@
 Meteor.startup(function() {
   var Route;
   /**
-   * @param {string} path
    * @param {RegExp=} opt_pathParser
    * @constructor
    */
-  Route = function(path, opt_pathParser) {
-    this.path_ = path;
+  Route = function(opt_pathParser) {
     this.parser_ = opt_pathParser || null;
   };
-  /**
-   * @type {string?}
-   * @private
-   */
-  Route.prototype.path_ = null;
   /**
    * @type {RegExp}
    * @private
@@ -38,7 +31,8 @@ Meteor.startup(function() {
    * @param {string} path
    * @param {Object} state
    */
-  Route.prototype.run = function(state, path) {
+  Route.prototype.run = function(path, state) {
+    var result;
     if (_.isNull(this.path_)) {
       return;
     }
@@ -46,10 +40,13 @@ Meteor.startup(function() {
       return;
     }
     if (this.parser_) {
-//      this.stateHandler_.apply(null, [state].concat(this.parser_.exec(path)));
-    } else {
-//      this.stateHandler_(state);
+      result = this.parser_.exec(path);
+      if (result) {
+        this.stateHandler_.apply(null, [state].concat(result.splice(1)));
+        return;
+      }
     }
+    this.stateHandler_(state);
   };
   sp.Route = Route;
 });

@@ -184,5 +184,13 @@
       }
       router.initModule(routeManager, 'foo');
   });
+  QUnit.test('currentState returns history.context', function() {
+    var historyStore;
+    historyStore = history;
+    history = {context: {foo: 'bar'} };
+    QUnit.strictEqual(sp.Router.currentState(), history.context,
+      'currentState should return history.context');
+    history = historyStore;
+  });
 }());
 
