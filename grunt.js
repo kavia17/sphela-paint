@@ -4,7 +4,11 @@ module.exports = function(grunt) {
   // Project configuration.
   grunt.initConfig({
     lint: {
-      files: ['grunt.js', 'paint/**/*.js', 'test/**/*.js']
+      files: [
+        'paint/**/!(extern)/*.js',
+        'grunt.js',
+        'test/**/*.js'
+      ]
     },
     qunit: {
       all: ['http://localhost:8888/test/main.html']
@@ -29,6 +33,10 @@ module.exports = function(grunt) {
         browser: true
       },
       globals: {
+        sp: false,
+        QUnit: false,
+        _: false,
+        sinon: false,
         Meteor: false,
         console: false
       }

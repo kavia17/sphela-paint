@@ -8,5 +8,5 @@ Meteor.startup(function() {
   function main(modules) {
     console.log('Started server app.');
   }
-  sp.main = main;
+  sp.serverMain = main;
 });

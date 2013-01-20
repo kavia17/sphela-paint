@@ -7,7 +7,7 @@ Meteor.startup(function() {
    * @type {string}
    * @const
    */
-  ROUTER_PATH = '/browser'
+  ROUTER_PATH = '/browser';
   /**
    * @type {Object}
    */
@@ -17,31 +17,35 @@ Meteor.startup(function() {
    */
   sp.browser.routed = true;
   if (Meteor.isClient) {
-    /**
-     * @param {Object} state
-     * @param {string} page
-     */
-    function stateHandler(state, page) {
-      console.log('browser', page);
-    }
-    /**
-     * @param {sp.Route} route
-     */
-    function routeManager(route) {
-      route.setHandler(_.bind(stateHandler, this));
-      return route;
-    }
-    function clientInit() {
-    }
-    sp.browser.init = clientInit;
-    function routerInit() {
-      return [routeManager, ROUTER_PATH]
-    }
-    sp.browser.routerInit = routerInit;
+    (function() {
+      /**
+       * @param {Object} state
+       * @param {string} page
+       */
+      function stateHandler(state, page) {
+        console.log('browser', page);
+      }
+      /**
+       * @param {sp.Route} route
+       */
+      function routeManager(route) {
+        route.setHandler(_.bind(stateHandler, this));
+        return route;
+      }
+      function clientInit() {
+      }
+      sp.browser.init = clientInit;
+      function routerInit() {
+        return [routeManager, ROUTER_PATH];
+      }
+      sp.browser.routerInit = routerInit;
+    }());
   }
   if (Meteor.isServer) {
-    function serverInit() {
-    }
-    sp.browser.init = serverInit;
+    (function() {
+      function serverInit() {
+      }
+      sp.browser.init = serverInit;
+    }());
   }
 });

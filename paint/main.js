@@ -14,8 +14,7 @@ var sp = {};
  */
 sp.global = this;
 /**
- * sp.main does different things on client and server.
- * Check client/main.js and client/server.js
+ * Entry point for app.
  */
 Meteor.startup(function () {
   sp.modules = [
@@ -24,6 +23,9 @@ Meteor.startup(function () {
     sp.messages,
     sp.controls
   ];
-  //sp.router is undefined on server and ignored.
-  sp.main(sp.modules, sp.router);
+  if (Meteor.isClient) {
+    sp.clientMain(sp.modules, sp.Router);
+  } else {
+    sp.serverMain(sp.modules);
+  }
 });

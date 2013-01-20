@@ -35,8 +35,8 @@ Meteor.startup(function() {
     this.stateHandler_ = stateHandler;
   };
   /**
-   * @param {Object} state
    * @param {string} path
+   * @param {Object} state
    */
   Route.prototype.run = function(state, path) {
     if (_.isNull(this.path_)) {

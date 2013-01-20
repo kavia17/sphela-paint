@@ -18,5 +18,5 @@ Meteor.startup(function() {
     });
     r.runRoute(Router.currentState());
   }
-  sp.main = main;
+  sp.clientMain = main;
 });

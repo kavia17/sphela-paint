@@ -8,15 +8,19 @@ Meteor.startup(function() {
    */
   sp.controls = {};
   if (Meteor.isClient) {
-    function clientInit() {
-      return null;
-    }
-    sp.controls.init = clientInit;
+    (function() {
+      function clientInit() {
+        return null;
+      }
+      sp.controls.init = clientInit;
+    }());
   }
   if (Meteor.isServer) {
-    function serverInit() {
-    }
-    sp.controls.init = serverInit;
+    (function() {
+      function serverInit() {
+      }
+      sp.controls.init = serverInit;
+    }());
   }
 });
 

@@ -8,15 +8,15 @@ Meteor.startup(function() {
    * @constructor
    */
   Router = function() {
-    this.routes_ = [];
-  }
+    this.routes_ = {};
+  };
   /**
    * Just a wrapper for history.state so as to avoid history references all over
    * the place.
    */
   Router.currentState = function() {
     return history.context;
-  }
+  };
   /**
    * The default route.
    * @type {sp.Route}
@@ -32,7 +32,7 @@ Meteor.startup(function() {
    */
   Router.prototype.setDefaultRoute = function(route) {
     this.defaultRoute_ = route;
-  }
+  };
   /**
    * @param {Function} routeManager A function that takes a Router and Routers
    * instances as arguments.
@@ -43,43 +43,44 @@ Meteor.startup(function() {
   Router.prototype.initModule = function(routeManager, path, opt_pathParser) {
     //routeManager gets a reference to the router for pushState loveliness.
     this.routes_[path] = routeManager(new sp.Route(path, opt_pathParser), this);
-  }
+  };
   /**
    * Iterates through routes until it gets to a path that matches
-   * the substring given.
-   * @param {string}  pathSubStr
+   * the full path given.
+   * @param {string} fullPath
    * @return {Route} The route.
    */
-  Router.prototype.getRoute = function(pathSubStr) {
-    _.each(this.routes_, function(route, path) {
-      if (_.indexOf(path, pathSubStr) === 0) {
-        return route;
+  Router.prototype.getRoute = function(fullPath) {
+    return _.find(this.routes_, function(route, path) {
+      if (fullPath.indexOf(path) === 0) {
+        return true;
       }
-    });
-    return null;
+      return false;
+    }) || null;
   };
   /**
    * Run a router path manually.
-   * @param {Object} state
+   * @param {string=} opt_path
+   * @param {Object=} opt_state
    */
-  Router.prototype.runRoute = function(state) {
-    var path, route;
-    if (_.isUndefined(state)) {
-      route = this.defaultRoute_;
-      path = '';
+  Router.prototype.runRoute = function(opt_path, opt_state) {
+    var path, state, route;
+    if (_.isUndefined(opt_state)) {
       state = {};
     } else {
-      path = state.path;
-      if (!path) {
-        return;
-      }
+      state = opt_state;
+    }
+    if (!_.isString(opt_path) || !opt_path.length) {
+      route = this.defaultRoute_;
+      path = '';
+    } else {
+      path = opt_path;
       route = this.getRoute(path);
     }
     if (!route) {
       return;
     }
-    console.log('the fuck', path);
-    route.run(state, path);
+    route.run(path, state);
   };
-  sp.router = Router;
+  sp.Router = Router;
 });
