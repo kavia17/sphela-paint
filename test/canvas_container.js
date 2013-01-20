@@ -30,6 +30,34 @@
       QUnit.ok(_.isString(results[1]),
         'routerInit did not provide a string path.');
   });
+  QUnit.test('routeManager is a function', function() {
+    QUnit.ok(_.isFunction(sp.container.routeManager),
+      'sp.container.serverInit is a function.');
+  });
+  QUnit.test('routeManager calls setHandler on route', function() {
+    var route;
+    route = {setHandler: sinon.spy()};
+    sp.container.routeManager(route);
+    QUnit.ok(route.setHandler.calledOnce, 'Called setHandler.');
+  });
+  QUnit.test('routeManager passes in a stateHandler', function() {
+    var route;
+    QUnit.expect(2);
+    route = {
+      setHandler: function(func) {
+        QUnit.ok(_.isFunction(func), 'passed in a function');
+        QUnit.equal(func, sp.container.stateHandler,
+          'passed in a stateHandler.');
+      }
+    }
+    sp.container.routeManager(route);
+  });
+  QUnit.test('routeManager returns route', function() {
+    var route;
+    route = {setHandler: function() {}};
+    QUnit.strictEqual(sp.container.routeManager(route), route,
+      'routeManager returned route.');
+  });
 }());
 
 

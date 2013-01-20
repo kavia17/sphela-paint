@@ -25,11 +25,12 @@ Meteor.startup(function() {
       function stateHandler(state, canvasName) {
         console.log('canvas', canvasName);
       }
+      c.stateHandler = _.bind(stateHandler, this);
       /**
        * @param {sp.Route} route
        */
       function routeManager(route) {
-        route.setHandler(_.bind(stateHandler, this));
+        route.setHandler(c.stateHandler);
         return route;
       }
       c.routeManager = routeManager;
