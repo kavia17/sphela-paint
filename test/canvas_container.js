@@ -49,7 +49,7 @@
         QUnit.equal(func, sp.container.stateHandler,
           'passed in a stateHandler.');
       }
-    }
+    };
     sp.container.routeManager(route);
   });
   QUnit.test('routeManager returns route', function() {
