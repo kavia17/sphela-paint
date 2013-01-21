@@ -8,28 +8,25 @@
   <script src="/paint/public/js/extern/underscore.js"></script>
   <script src="/paint/public/js/extern/qunit.js"></script>
   <script src="/paint/public/js/extern/sinon.js"></script>
+  <!-- shim file to help with testing -->
   <script>
     var Meteor, sp;
-    Meteor = {
-      // $() is a shortcut for $(document).ready in jQuery.
-      startup: $,
-      isClient: true,
-      isServer: true
-    };
-    sp = {};
   </script>
+  <script src="/test/meteorshim.js"></script>
 
   <!-- Tested files (Should eventually be all files.)  -->
   <script src="/paint/client/js/main.js"></script>
   <script src="/paint/client/js/route.js"></script>
   <script src="/paint/client/js/router.js"></script>
   <script src="/paint/lib/module/canvas_container/canvas_container.js"></script>
+  <script src="/paint/lib/models/canvas.js"></script>
 
   <!-- Test files -->
   <script src="/test/main.js"></script>
   <script src="/test/router.js"></script>
   <script src="/test/route.js"></script>
   <script src="/test/canvas_container.js"></script>
+  <script src="/test/canvas_model.js"></script>
 </head>
 <body>
   <div id="qunit"></div>

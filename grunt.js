@@ -33,12 +33,13 @@ module.exports = function(grunt) {
         browser: true
       },
       globals: {
-        sp: false,
+        sp: true,
         QUnit: false,
         _: false,
         sinon: false,
-        Meteor: false,
+        Meteor: true,
         history: true,
+        $: false,
         console: false
       }
     }

@@ -54,9 +54,9 @@ Meteor.startup(function() {
    * @const
    */
   Canvas.markSize = {
-    SMALL: 1,
-    MID: 2,
-    LARGE: 3
+    SMALL: 0,
+    MID: 1,
+    LARGE: 2
   };
 
   /**
@@ -141,9 +141,44 @@ Meteor.startup(function() {
    * Returns the low level information required to draw canvas.
    * @return {Array}
    */
-  CanvasP.getCanvasData = function() {
+  CanvasP.canvasData = function() {
     this.setReactive_();
     return this.data_.graph;
+  };
+
+  /**
+   * @return {Object}
+   */
+  CanvasP.rawData = function() {
+    return this.data_;
+  };
+
+  /**
+   * @return {string}
+   */
+  CanvasP.name = function() {
+    return this.data_.name;
+  };
+
+  /**
+   * @return {string}
+   */
+  CanvasP.password = function() {
+    return this.data_.password;
+  };
+
+  /**
+   * @return {string}
+   */
+  CanvasP.votes = function() {
+    return this.data_.votes;
+  };
+
+  /**
+   * @return {Date}
+   */
+  CanvasP.when = function() {
+    return new Date(this.data_.when);
   };
 
   /**
@@ -176,13 +211,15 @@ Meteor.startup(function() {
    * @return {Object}
    */
   CanvasP.getDataAt_ = function(x, y) {
-    if (!_.has(this.data_, y)) {
+    var graph;
+    graph = this.data_.graph;
+    if (!_.has(graph, y)) {
       return null;
     }
-    if (!_.has(this.data_[y], x)) {
+    if (!_.has(graph[y], x)) {
       return null;
     }
-    return this.data_.graph[y][x];
+    return graph[y][x];
   };
 
   /**
