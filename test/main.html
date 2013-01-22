@@ -20,15 +20,25 @@
   <script src="/paint/client/js/router.js"></script>
   <script src="/paint/lib/module/canvas_container/canvas_container.js"></script>
   <script src="/paint/lib/models/canvas.js"></script>
+  <script src="/paint/lib/module/side_controls/side_controls.js"></script>
+  <script src="/paint/lib/module/side_controls/control.js"></script>
 
   <!-- Test files -->
+  <script>
+    QUnit.testDone(function() {
+      // Clean up all HTML for the test.
+      $('#test').html('');
+    });
+  </script>
   <script src="/test/main.js"></script>
   <script src="/test/router.js"></script>
   <script src="/test/route.js"></script>
   <script src="/test/canvas_container.js"></script>
   <script src="/test/canvas_model.js"></script>
+  <script src="/test/control.js"></script>
 </head>
 <body>
+  <div id="test"></div>
   <div id="qunit"></div>
   <div id="qunit-fixture"></div>
 </body>

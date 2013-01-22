@@ -1,5 +1,4 @@
 (function() {
-  var route;
   QUnit.module('Canvas Container', {
     setup: function() {
     },

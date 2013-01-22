@@ -1,8 +1,61 @@
 @white: #f8f8f8;
 @black: #333;
+@red: #d64803;
+@blue: #5d8ed1;
+@green: #008080;
+@lightGray: #c1c1c1;
+@midGray: #9f9f9f;
+@darkGray: #717171;
 @glowWhite: #fff;
 
-body {
+body, HTML {
+  background: @black;
+  padding: 0px;
+}
+.container {
   background: @white;
   color: @black;
 }
+.row {
+  margin: 0px;
+}
+.side-controls-container {
+  height: 28px;
+  background: @black;
+  padding: 2px;
+  .control {
+    background: @midGray;
+    display: inline-block;
+    height: 26px;
+    width: 26px;
+    cursor: pointer;
+    border: 1px solid @black;
+    border-top-color: @lightGray;
+    border-right-color: @lightGray;
+    border-radius: 3px;
+    background-clip: padding-box;
+  }
+  .red-color {
+    background: @red;
+  }
+  .green-color {
+    background: @green;
+  }
+  .blue-color {
+    background: @blue;
+  }
+}
+@media screen and (max-width: 400px) {
+  .container {
+    margin: 32px 0 0;
+  }
+  .side-controls-container {
+    margin-right: 0px;
+  }
+}
+@media screen and (min-width: 401px) and (max-width: 724px) {
+  .side-controls-container {
+    margin-right: 280px;
+  }
+}
+

@@ -4,17 +4,15 @@
 </head>
 
 <body>
-  {{> app}}
-</body>
-
-<template name="app">
   <div class="app container">
+    <div class="row side-controls-container">
+      <div class="span12">
+        {{> side-controls}}
+      </div>
+    </div>
     <div class="row">
       <div class="canvas-container span9">
         {{> canvas-container}}
-      </div>
-      <div class="side-controls span1 pull-right">
-        {{> side-controls}}
       </div>
     </div>
   </div>
@@ -25,5 +23,5 @@
     {{> canvas-browser}}
   </div>
   </div>
-</template>
+</body>
 
