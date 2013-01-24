@@ -40,7 +40,8 @@ module.exports = function(grunt) {
         Meteor: true,
         history: true,
         $: false,
-        console: false
+        console: false,
+        Template: true
       }
     }
   });

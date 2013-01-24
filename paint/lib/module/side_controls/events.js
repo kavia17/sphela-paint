@@ -1,9 +1,19 @@
 /**
  * @fileOverview Template event listeners for side controls.
  */
-Meteor.startup(function() {
-  if (Meteor.isClient) {
-    (function() {
-    }());
-  }
-});
+if (Meteor.isClient) {
+  (function() {
+    /**
+     * @param {Event} event
+     */
+    function handleControlClick(event) {
+      var name;
+      name = sp.controls.Control.getControlNameFromElement(event.target);
+      sp.controls.registry.action(name);
+    }
+
+    Template.sideControls.events({
+      'click .control': handleControlClick
+    });
+  }());
+}

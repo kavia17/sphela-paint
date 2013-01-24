@@ -6,7 +6,6 @@ Meteor.startup(function() {
   /**
    * @type {Object}
    */
-  sp.controls = {};
   if (Meteor.isClient) {
     (function() {
       function clientInit() {

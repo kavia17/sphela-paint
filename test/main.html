@@ -10,11 +10,12 @@
   <script src="/paint/public/js/extern/sinon.js"></script>
   <!-- shim file to help with testing -->
   <script>
-    var Meteor, sp;
+    var Meteor;
   </script>
   <script src="/test/meteorshim.js"></script>
 
   <!-- Tested files (Should eventually be all files.)  -->
+  <script src="/paint/lib/include.js"></script>
   <script src="/paint/client/js/main.js"></script>
   <script src="/paint/client/js/route.js"></script>
   <script src="/paint/client/js/router.js"></script>
@@ -22,6 +23,7 @@
   <script src="/paint/lib/models/canvas.js"></script>
   <script src="/paint/lib/module/side_controls/side_controls.js"></script>
   <script src="/paint/lib/module/side_controls/control.js"></script>
+  <script src="/paint/lib/module/side_controls/registry.js"></script>
 
   <!-- Test files -->
   <script>
@@ -36,6 +38,7 @@
   <script src="/test/canvas_container.js"></script>
   <script src="/test/canvas_model.js"></script>
   <script src="/test/control.js"></script>
+  <script src="/test/registry.js"></script>
 </head>
 <body>
   <div id="test"></div>

@@ -4,13 +4,19 @@
 Meteor.startup(function() {
   if (Meteor.isClient) {
     (function() {
-      var ControlP, STATE_PREFIX;
+      var ControlP, STATE_LOOKUP, NAME_LOOKUP;
 
       /**
        * @type {string}
        * @const
        */
-      STATE_PREFIX = 'state-';
+      STATE_LOOKUP = 'data-state';
+
+      /**
+       * @type {string}
+       * @const
+       */
+      NAME_LOOKUP = 'data-name';
 
       /**
        * @param {Function} name
@@ -41,6 +47,23 @@ Meteor.startup(function() {
         this.state_ = defaultState;
         this.updateButtonState_(defaultState);
       }
+
+      /**
+       * @param {Element} element
+       * @return {string?}
+       */
+      Control.getControlNameFromElement = function(element) {
+        return $(element).attr(NAME_LOOKUP);
+      };
+
+      /**
+       * @param {string} name
+       * @param {Element} element
+       */
+      Control.setControlNameOnElement = function(name, element) {
+        $(element).attr(NAME_LOOKUP, name);
+      };
+
       ControlP = Control.prototype;
 
       /**
@@ -66,11 +89,8 @@ Meteor.startup(function() {
        */
       ControlP.updateButtonState_ = function(state) {
         var $el;
-        $el = $('.' + this.name_);
-        if (this.state_) {
-          $el.removeClass(STATE_PREFIX + this.state_);
-        }
-        $el.addClass(STATE_PREFIX + state);
+        $el = $('[' + NAME_LOOKUP + '="' + this.name_ + '"]');
+        $el.attr(STATE_LOOKUP, state);
       };
 
       /**

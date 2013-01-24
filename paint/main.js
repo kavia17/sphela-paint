@@ -4,11 +4,6 @@
  * meteor.startup to be able to see the sp namespace.
  */
 /**
- * The main app namespace.
- * @type {Object};
- */
-var sp = {};
-/**
  * A safe reference to the global object.
  * @type {Object};
  */
