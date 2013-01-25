@@ -4,24 +4,25 @@
 </head>
 
 <body>
-  <div class="app container">
-    <div class="row side-controls-container">
-      <div class="span12">
-        {{> sideControls}}
+  <div id="main" class="container">
+    <div class="app">
+      <div class="row">
+        <div class="canvas-container">
+          {{> canvasContainer}}
+        </div>
+      </div>
+      <div class="row">
+         <div class="side-controls-container">
+            {{> sideControls}}
+        </div>
       </div>
     </div>
-    <div class="row">
-      <div class="canvas-container span9">
-        {{> canvasContainer}}
-      </div>
+    <div class="messages">
+      {{> messages}}
     </div>
-  </div>
-  <div class="messages">
-    {{> messages}}
-  </div>
-  <div class="canvas-browser">
-    {{> canvasBrowser}}
-  </div>
+    <div class="canvas-browser">
+      {{> canvasBrowser}}
+    </div>
   </div>
 </body>
 

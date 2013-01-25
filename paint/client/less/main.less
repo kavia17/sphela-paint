@@ -9,20 +9,27 @@
 @glowWhite: #fff;
 
 body, HTML {
-  background: @black;
+  background: @darkGray;
   padding: 0px;
+  height: 100%;
+}
+#main {
+  background: @black;
 }
 .container {
-  background: @white;
+  background: @black;
   color: @black;
 }
 .row {
   margin: 0px;
 }
+.side-controls-container,
+.canvas-container {
+  display: block;
+  background-color: @white;
+}
 .side-controls-container {
-  height: 28px;
   background: @black;
-  padding: 2px;
   .control {
     background: @midGray;
     display: inline-block;
@@ -46,16 +53,61 @@ body, HTML {
   }
 }
 @media screen and (max-width: 400px) {
-  .container {
-    margin: 32px 0 0;
-  }
-  .side-controls-container {
-    margin-right: 0px;
+  .side-controls-container,
+  .canvas-container {
+    float: none;
+    margin: 10px auto;
+    width: 95%;
   }
 }
-@media screen and (min-width: 401px) and (max-width: 724px) {
-  .side-controls-container {
-    margin-right: 280px;
+@media screen and (max-height: 480px) {
+  .side-controls-container,
+  .canvas-container {
+    height: 158px;
+  }
+}
+@media (device-height: 568px) and (-webkit-min-device-pixel-ratio: 2) {
+  .side-controls-container,
+  .canvas-container {
+    height: 202px;
+  }
+}
+@media screen and (max-height: 320px) {
+  #main {
+    overflow: hidden;
+  }
+  .row {
+    float: left;
+      margin: 10px 5px 10px 10px;
+  }
+  .side-controls-container,
+  .canvas-container {
+    width: 220px;
+    height: 187px;
+    margin: 0px;
+  }
+}
+@media only screen and (min-width: 560px) and (max-device-width: 1136px) {
+  .side-controls-container,
+  .canvas-container {
+    width: 265px;
+  }
+}
+@media screen and (min-width: 725px) {
+  #main {
+    height: 768px;
+    width: 768px;
+  }
+  .row {
+    margin: 20px;
+  }
+  .side-controls-container,
+  .canvas-container {
+    float: none;
+    display: block;
+    width: 725px;
+    height: 355px;
+    margin: 0px auto;
   }
 }
 
