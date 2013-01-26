@@ -12,6 +12,7 @@ Meteor.startup(function() {
        */
       function Color(name) {
       }
+      sp.base.inherits(Color, sp.controls.Control);
       sp.controls.Color = Color;
     }());
   }
