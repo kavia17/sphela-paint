@@ -1,7 +1,9 @@
 /**
  * @fileOverview Main entry point for the client side.
  */
-Meteor.startup(function() {
+define([
+],
+function() {
   /**
    * @param {Array.<Function>} modules
    * @param {Function} Router
@@ -18,5 +20,7 @@ Meteor.startup(function() {
     });
     r.runRoute(Router.currentState());
   }
-  sp.clientMain = main;
+  return {
+    main: main
+  };
 });

@@ -2,7 +2,10 @@
  * @fileOverview Side controls are used to manipulate the canvas in the canvas
  * container.
  */
-Meteor.startup(function() {
+define([
+], function() {
+  var controls;
+  controls = {};
   /**
    * @type {Object}
    */
@@ -11,15 +14,16 @@ Meteor.startup(function() {
       function clientInit() {
         return null;
       }
-      sp.controls.clientInit = clientInit;
+      controls.clientInit = clientInit;
     }());
   }
   if (Meteor.isServer) {
     (function() {
       function serverInit() {
       }
-      sp.controls.serverInit = serverInit;
+      controls.serverInit = serverInit;
     }());
   }
+  return controls;
 });
 

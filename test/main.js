@@ -1,7 +1,9 @@
-(function() {
+define([
+  '../js/lib/client/main'
+], function(client) {
   var Router, R;
   /** 
-   * Mock sp.Router
+   * Mock Router
    */
   function createRouter() {
     var Router, createdSpy, initModuleSpy, runRouteSpy, currentStateSpy;
@@ -44,50 +46,50 @@
     };
     return mockModule;
   }
-  QUnit.module('sp.clientMain', {
+  QUnit.module('client.main', {
     setup: function() {
       R = createRouter();
     }
   });
-  QUnit.test('sp.clientMain should exist', function() {
-    QUnit.ok(sp.clientMain, 'sp.clientMain does not exist.');
+  QUnit.test('client.main should exist', function() {
+    QUnit.ok(client.main, 'client.main does not exist.');
   });
-  QUnit.test('sp.clientMain should create an instance of sp.Router',
+  QUnit.test('client.main should create an instance of Router',
     function() {
-      sp.clientMain([], R);
+      client.main([], R);
       QUnit.ok(R.createdSpy.calledOnce, 'Instance of Router not created.');
   });
   QUnit.test(
-    'sp.clientMain should iterate through modules and call their init.',
+    'client.main should iterate through modules and call their init.',
     function() {
       QUnit.expect(2);
       var m1, m2;
       m1 = createMockModule();
       m2 = createMockModule();
-      sp.clientMain([m1, m2], R);
+      client.main([m1, m2], R);
       QUnit.ok(m1.initSpy.calledOnce, 'First module init not called.');
       QUnit.ok(m2.initSpy.calledOnce, 'Second module init not called.');
   });
-  QUnit.test('sp.clientMain should call r.runRoute', function() {
-    sp.clientMain([], R);
+  QUnit.test('client.main should call r.runRoute', function() {
+    client.main([], R);
     QUnit.ok(R.runRouteSpy.calledOnce, 'Did not call runRoute');
   });
-  QUnit.test('sp.clientMain should call r.initModule for every routed module.',
+  QUnit.test('client.main should call r.initModule for every routed module.',
     function() {
       var m1, m2, m3, m4;
       m1 = createMockModule();
       m2 = createMockModule(true);
       m3 = createMockModule();
       m4 = createMockModule(true);
-      sp.clientMain([m1, m2, m3, m4], R);
+      client.main([m1, m2, m3, m4], R);
       QUnit.strictEqual(R.initModuleSpy.callCount, 2, 'Wrong call count.');
   });
-  QUnit.test('sp.clientMain should call r.currentState.',
+  QUnit.test('client.main should call r.currentState.',
     function() {
-      sp.clientMain([], R);
+      client.main([], R);
       QUnit.ok(R.currentStateSpy.calledOnce, 'Did not call current state once.');
   });
-  QUnit.test('sp.clientMain should call init for every module.', function() {
+  QUnit.test('client.main should call init for every module.', function() {
     var modules, i;
     QUnit.expect(4);
     modules = [
@@ -96,12 +98,13 @@
       createMockModule(),
       createMockModule(true)
     ];
-    sp.clientMain(modules, R);
+    client.main(modules, R);
     for (i = 0; i < modules.length; i++) {
-      QUnit.ok(modules[i].initSpy.calledOnce, 'Init spy for ' + i + ' not called.');
+      QUnit.ok(modules[i].initSpy.calledOnce,
+        'Init spy for ' + i + ' not called.');
     }
   });
-  QUnit.test('sp.clientMain should call routerInit for every routed module.',
+  QUnit.test('client.main should call routerInit for every routed module.',
     function() {
       var modules, expected, i;
       QUnit.expect(4);
@@ -117,7 +120,7 @@
         false,
         true
       ];
-      sp.clientMain(modules, R);
+      client.main(modules, R);
       for (i = 0; i < modules.length; i++) {
         // Explicit boolean check to avoid undefined expecteds.
         if (expected[i] === true) {
@@ -129,4 +132,4 @@
         }
       }
   });
-}());
+});

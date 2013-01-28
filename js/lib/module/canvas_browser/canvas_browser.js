@@ -1,8 +1,9 @@
 /**
  * @fileOverview The canvas browser is the way to find public canvases.
  */
-Meteor.startup(function() {
-  var ROUTER_PATH;
+define([
+], function() {
+  var ROUTER_PATH, browser;
   /**
    * @type {string}
    * @const
@@ -11,11 +12,11 @@ Meteor.startup(function() {
   /**
    * @type {Object}
    */
-  sp.browser = {};
+  browser = {};
   /**
    * This module needs router access.
    */
-  sp.browser.routed = true;
+  browser.routed = true;
   if (Meteor.isClient) {
     (function() {
       /**
@@ -26,7 +27,7 @@ Meteor.startup(function() {
         console.log('browser', page);
       }
       /**
-       * @param {sp.Route} route
+       * @param {Route} route
        */
       function routeManager(route) {
         route.setHandler(_.bind(stateHandler, this));
@@ -34,18 +35,19 @@ Meteor.startup(function() {
       }
       function clientInit() {
       }
-      sp.browser.clientInit = clientInit;
+      browser.clientInit = clientInit;
       function routerInit() {
         return [routeManager, ROUTER_PATH];
       }
-      sp.browser.routerInit = routerInit;
+      browser.routerInit = routerInit;
     }());
   }
   if (Meteor.isServer) {
     (function() {
       function serverInit() {
       }
-      sp.browser.serverInit = serverInit;
+      browser.serverInit = serverInit;
     }());
   }
+  return browser;
 });

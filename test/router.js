@@ -1,5 +1,8 @@
-(function() {
-  var router, routeStore;
+define([
+  '../js/lib/client/route',
+  '../js/lib/client/router'
+], function(Route, Router) {
+  var r, routeStore;
 
   function stubManager(x) {
     return x;
@@ -18,44 +21,42 @@
     return r;
   }
 
-  QUnit.module('sp.Router', {
+  QUnit.module('Router', {
     setup: function() {
-      router = new sp.Router();
-      routeStore = sp.Route;
+      r = new Router();
+      routeStore = Route;
     },
     teardown: function() {
-      sp.Route = routeStore;
+      Route = routeStore;
     }
   });
-  QUnit.test('sp.Router should exist', function() {
-    QUnit.ok(sp.Router, 'sp.Router does not exist.');
+  QUnit.test('Router should exist', function() {
+    QUnit.ok(Router, 'Router does not exist.');
   });
   QUnit.test('Setting a default route should work.', function() {
     var route;
     route = createMockRoute();
-    router.setDefaultRoute(route);
-    router.runRoute();
+    r.setDefaultRoute(route);
+    r.runRoute();
     QUnit.ok(route.runSpy.calledOnce, 'Default route was not called.');
   });
   QUnit.test('initModule should run routeManager.', function() {
     var routeManager;
     routeManager = sinon.spy();
-    router.initModule(routeManager, 'foo');
+    r.initModule(routeManager, 'foo');
     QUnit.ok(routeManager.calledOnce, 'routeManager was not called.');
   });
-  QUnit.test('routeManager should get an instance of sp.Route.', function() {
+  QUnit.test('routeManager should get an instance of Route.', function() {
     var routeInstance;
     function routeManager(r) {
       routeInstance = r;
     }
-    router.initModule(routeManager, 'foo');
-    QUnit.ok(routeInstance instanceof sp.Route,
-      'routeInstance should be an instance of sp.Route');
+    r.initModule(routeManager, 'foo');
+    QUnit.ok(routeInstance instanceof Route,
+      'routeInstance should be an instance of Route');
   });
   QUnit.test('getRoute should return a route when given a path.', function() {
-    var routes, MockRoute;
-    MockRoute = function (path) {this.path = path;};
-    sp.Route = MockRoute;
+    var routes;
     QUnit.expect(4);
     routes = {
       '/foo/doo': {
@@ -72,125 +73,95 @@
       }
     };
     _.each(routes, function(routeObj, path) {
-      router.initModule(stubManager, path);
+      r.initModule(stubManager, path);
     });
     _.each(routes, function(routeObj, path) {
       _.each(routeObj.paths, function(fullPath) {
         var route;
-        route = router.getRoute(fullPath);
+        route = r.getRoute(fullPath);
         if (!route) {
           return;
         }
-        QUnit.strictEqual(router.getRoute(path).path, path,
+        QUnit.strictEqual(r.getRoute(path).path(), path,
           'Did not get the right route.');
       });
     });
   });
   QUnit.test('getRoute should return null when it cannot find a route.',
     function() {
-      QUnit.strictEqual(router.getRoute('foo'), null,
+      QUnit.strictEqual(r.getRoute('foo'), null,
         'getRoute should return null when it cannot find a route.');
   });
-  QUnit.test('runRoute should should pass state to route.',
+  QUnit.test('runRoute should should pass state and path to route.',
     function() {
-      var MockRoute, testPath, testState;
-      QUnit.expect(1);
-      MockRoute = function () {};
+      var testPath, testState, mock;
       testPath = 'foo/bar';
       testState = {foo: 'bar'};
-      MockRoute.prototype.run = function(path, state) {
-        QUnit.strictEqual(state, testState,
-          'run should get the state from runRoute');
-      };
-      sp.Route = MockRoute;
-      router.initModule(stubManager, 'foo');
-      router.runRoute(testPath, testState);
-  });
-  QUnit.test('runRoute should should pass path to route.',
-    function() {
-      var MockRoute, testPath, testState;
-      QUnit.expect(1);
-      MockRoute = function () {};
-      testPath = 'foo/bar';
-      testState = {foo: 'bar'};
-      MockRoute.prototype.run = function(path, state) {
-        QUnit.strictEqual(path, testPath,
-          'run should get the path from runRoute');
-      };
-      sp.Route = MockRoute;
-      router.initModule(stubManager, 'foo');
-      router.runRoute(testPath, testState);
+      mock = sinon.mock(Route.prototype);
+      mock.expects('run').once().withExactArgs(testPath, testState);
+      r.initModule(stubManager, 'foo');
+      r.runRoute(testPath, testState);
+      QUnit.ok(mock.verify(),
+        'run should get the state and path from runRoute');
   });
   QUnit.test(
     'runRoute should should pass in an empty object when given undefined state',
     function() {
-      var MockRoute, testPath, testState;
-      QUnit.expect(1);
-      MockRoute = function () {};
-      MockRoute.prototype.run = function(path, state) {
-        QUnit.ok(_.isEmpty(state),
-          'run should get an empty state from runRoute');
-      };
-      sp.Route = MockRoute;
-      router.initModule(stubManager, 'foo');
-      router.runRoute('foo');
+      var mock;
+      mock = sinon.mock(Route.prototype);
+      mock.expects('run').once().withExactArgs('foo', {});
+      r.initModule(stubManager, 'foo');
+      r.runRoute('foo');
+      QUnit.ok(mock.verify(),
+        'run should get an empty object from runRoute');
   });
   QUnit.test('runRoute should pass in an empty string to default route',
     function() {
-      var MockRoute, testPath, testState, route;
+      var route, mock;
       QUnit.expect(1);
-      MockRoute = function () {};
-      MockRoute.prototype.run = function(path, state) {
-        QUnit.strictEqual(path, '',
-          'run should get an empty string from runRoute');
-      };
+      mock = sinon.mock(Route.prototype);
+      mock.expects('run').once().withExactArgs('', {});
       function routeManager(r) {
         route = r;
       }
-      sp.Route = MockRoute;
-      router.initModule(routeManager, 'foo');
-      router.setDefaultRoute(route);
-      router.runRoute();
+      r.initModule(routeManager, 'foo');
+      r.setDefaultRoute(route);
+      r.runRoute();
+      QUnit.ok(mock.verify(), 'run should get an empty string from runRoute');
   });
   QUnit.test('initModule should pass in the path to route',
     function() {
-      var MockRoute, testpath;
-      QUnit.expect(1);
+      var testpath;
       testpath = 'testpath';
-      MockRoute = function(path) {
-        QUnit.strictEqual(path, testpath, 'route should get path');
-      };
-      sp.Route = MockRoute;
-      router.initModule(stubManager, testpath);
+      r.initModule(stubManager, testpath);
+      QUnit.strictEqual(r.getRoute(testpath).path(), testpath,
+        'route should get path.');
   });
   QUnit.test('initModule should pass in the pathParser to route',
     function() {
-      var MockRoute, path, testParser;
-      QUnit.expect(1);
+      var path, testParser;
       path = 'testpath';
       testParser = /foo/;
-      MockRoute = function(path, parser) {
-        QUnit.strictEqual(parser, testParser, 'route should get parser');
-      };
-      sp.Route = MockRoute;
-      router.initModule(stubManager, path, testParser);
+      r.initModule(stubManager, path, testParser);
+      QUnit.strictEqual(r.getRoute(path).parser(), testParser,
+        'route should get parser.');
   });
   QUnit.test('initModule should pass in a reference to the router',
     function() {
       QUnit.expect(1);
       function routeManager(route, testRouter) {
-        QUnit.strictEqual(testRouter, router,
+        QUnit.strictEqual(testRouter, r,
           'routeManager should get the router');
       }
-      router.initModule(routeManager, 'foo');
+      r.initModule(routeManager, 'foo');
   });
   QUnit.test('currentState returns history.context', function() {
     var historyStore;
     historyStore = history;
     history = {context: {foo: 'bar'} };
-    QUnit.strictEqual(sp.Router.currentState(), history.context,
+    QUnit.strictEqual(Router.currentState(), history.context,
       'currentState should return history.context');
     history = historyStore;
   });
-}());
+});
 

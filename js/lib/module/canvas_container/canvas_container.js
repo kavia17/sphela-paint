@@ -1,8 +1,9 @@
 /**
  * @fileOverview The canvas container is the main drawing area.
  */
-Meteor.startup(function() {
-  var ROUTER_PATH, c;
+define([
+  ], function() {
+  var ROUTER_PATH, container;
   /**
    * @type {string}
    * @const
@@ -11,11 +12,11 @@ Meteor.startup(function() {
   /**
    * @type {Object}
    */
-  sp.container = c = {};
+  container = {};
   /**
    * This module needs router access.
    */
-  sp.container.routed = true;
+  container.routed = true;
   if (Meteor.isClient) {
     (function() {
       /**
@@ -25,29 +26,30 @@ Meteor.startup(function() {
       function stateHandler(state, canvasName) {
         console.log('canvas', canvasName);
       }
-      c.stateHandler = _.bind(stateHandler, this);
+      container.stateHandler = _.bind(stateHandler, this);
       /**
-       * @param {sp.Route} route
+       * @param {Route} route
        */
       function routeManager(route) {
-        route.setHandler(c.stateHandler);
+        route.setHandler(container.stateHandler);
         return route;
       }
-      c.routeManager = routeManager;
+      container.routeManager = routeManager;
       function clientInit() {
       }
-      c.clientInit = clientInit;
+      container.clientInit = clientInit;
       function routerInit() {
         return [routeManager, ROUTER_PATH];
       }
-      c.routerInit = routerInit;
+      container.routerInit = routerInit;
     }());
   }
   if (Meteor.isServer) {
     (function() {
       function serverInit() {
       }
-      sp.container.serverInit = serverInit;
+      container.serverInit = serverInit;
     }());
   }
+  return container;
 });

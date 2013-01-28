@@ -1,18 +1,19 @@
-Meteor.startup(function() {
-  var Canvas, CanvasP;
-  /**
-   * @fileOverview A canvas is the main point of activity and interaction with
-   * the app. Every canvas has one painting area and can be shared. It can be
-   * public or private where by private I mean it's simply a hidden link.
-   */
-  sp.Canvases = new Meteor.Collection('canvases');
+/**
+ * @fileOverview A canvas is the main point of activity and interaction with
+ * the app. Every canvas has one painting area and can be shared. It can be
+ * public or private where by private I mean it's simply a hidden link.
+ */
+define([
+    '../../meteor'
+  ], function(Meteor) {
+  var CanvasP;
 
   /**
    * The object representation of a canvas.
    * @param {Object=} opt_canvasData
    * @constructor
    */
-  Canvas = function(opt_canvasData) {
+  function Canvas(opt_canvasData) {
     /**
      * @type {Object}
      * @private
@@ -24,7 +25,7 @@ Meteor.startup(function() {
      * @private
      */
     this.listeners_ = {};
-  };
+  }
 
   /**
    * The canvas is a 19:6 ratio.
@@ -263,5 +264,5 @@ Meteor.startup(function() {
     });
   };
 
-  sp.Canvas = Canvas;
+  return Canvas;
 });

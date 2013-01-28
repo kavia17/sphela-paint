@@ -2,20 +2,26 @@
  * @fileOverview A Route is a wrapper for managing push state. It's an interface
  * of sorts.
  */
-Meteor.startup(function() {
+define([
+ ],function() {
   var Route;
   /**
+   * @param {string} path
    * @param {RegExp=} opt_pathParser
    * @constructor
    */
-  Route = function(opt_pathParser) {
+  Route = function(path, opt_pathParser) {
+    /**
+     * @type {string}
+     * @private
+     */
+    this.path_ = path;
+    /**
+     * @type {RegExp}
+     * @private
+     */
     this.parser_ = opt_pathParser || null;
   };
-  /**
-   * @type {RegExp}
-   * @private
-   */
-  Route.prototype.parser_ = null;
   /**
    * @type {Function}
    * @private
@@ -33,9 +39,6 @@ Meteor.startup(function() {
    */
   Route.prototype.run = function(path, state) {
     var result;
-    if (_.isNull(this.path_)) {
-      return;
-    }
     if (!_.isFunction(this.stateHandler_)) {
       return;
     }
@@ -48,5 +51,17 @@ Meteor.startup(function() {
     }
     this.stateHandler_(state);
   };
-  sp.Route = Route;
+  /**
+   * @return {string}
+   */
+  Route.prototype.path = function() {
+    return this.path_;
+  };
+  /**
+   * @return {string}
+   */
+  Route.prototype.parser = function() {
+    return this.parser_;
+  };
+  return Route;
 });

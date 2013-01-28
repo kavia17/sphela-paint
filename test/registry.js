@@ -1,4 +1,7 @@
-(function() {
+define([
+    '../js/lib/module/side_controls/control',
+    '../js/lib/module/side_controls/registry'
+  ], function(Control, registry) {
   var controlStore, element, control, name, defaultState, states, action;
   defaultState = 'bar';
   states = ['apples', 'oranges', defaultState, 'banana'];
@@ -8,39 +11,39 @@
       name = 'foobar';
       element = $('.test-control').get(0);
       action = sinon.spy();
-      control = sp.controls.registry.addControl(name, states, defaultState,
+      control = registry.addControl(name, states, defaultState,
         element, action);
-      controlStore = sp.controls.Control;
+      controlStore = Control;
     },
     teardown: function() {
-      sp.controls.registry.clear();
-      sp.controls.Control = controlStore;
+      registry.clear();
+      Control = controlStore;
     }
   });
   QUnit.test('registry should exist', function() {
-    QUnit.ok(sp.controls.registry, 'sp.controls.registry should exist.');
+    QUnit.ok(registry, 'registry should exist.');
   });
   QUnit.test('registry should add and return a control.', function() {
-    QUnit.ok(control instanceof sp.controls.Control,
+    QUnit.ok(control instanceof Control,
       'Should have returned a control.');
   });
   QUnit.test('registry should return a control.', function() {
-    control = sp.controls.registry.control(name);
+    control = registry.control(name);
     QUnit.strictEqual(control.name(), name, 'Should have returned a control.');
   });
   QUnit.test('Should not add a control if it already exists.', function() {
     QUnit.throws(function() {
-      sp.controls.registry.addControl(name, ['bar'], 'bar', element,
+      registry.addControl(name, ['bar'], 'bar', element,
         function() {});
     }, 'Should throw an error if adding a previously added control name.');
   });
   QUnit.test('Should call setControlNameOnElement on control.', function() {
-    sinon.spy(sp.controls.Control, 'setControlNameOnElement');
-      sp.controls.registry.addControl('test', ['bar'], 'bar', element,
+    sinon.spy(Control, 'setControlNameOnElement');
+      registry.addControl('test', ['bar'], 'bar', element,
         function() {});
-    QUnit.ok(sp.controls.Control.setControlNameOnElement.calledOnce,
+    QUnit.ok(Control.setControlNameOnElement.calledOnce,
       'Should have called setControlNameOnElement.');
-    sp.controls.Control.setControlNameOnElement.restore();
+    Control.setControlNameOnElement.restore();
   });
   QUnit.test('Should have passed in the default state.', function() {
     QUnit.strictEqual(control.state(), defaultState,
@@ -59,31 +62,31 @@
   });
   QUnit.test('Should return a control state by name.', function() {
     var firstControl, newControl, expectedControl;
-    expectedControl = sp.controls.registry.addControl('test1', ['bar'], 'bar',
+    expectedControl = registry.addControl('test1', ['bar'], 'bar',
       function() {});
-    firstControl = sp.controls.registry.control(name);
+    firstControl = registry.control(name);
     QUnit.strictEqual(firstControl, control,
       'Should have returned the initial control.');
-    newControl = sp.controls.registry.control('test1');
+    newControl = registry.control('test1');
     QUnit.strictEqual(newControl, expectedControl,
       'Should have returned the new control.');
   });
   QUnit.test('Should return a null for state by invalid name.', function() {
-    QUnit.ok(_.isNull(sp.controls.registry.control('does not exist.')),
+    QUnit.ok(_.isNull(registry.control('does not exist.')),
       'Should return null for non-existant control.');
   });
   QUnit.test('Should set a control state by name.', function() {
-    sp.controls.registry.setState(name, 'apples');
+    registry.setState(name, 'apples');
     QUnit.strictEqual(control.state(), 'apples',
       'Should have set control state by name.');
   });
   QUnit.test('Should call a control click by name.', function() {
-    sp.controls.registry.click(name);
+    registry.click(name);
     QUnit.ok(action.calledOnce, 'Should have called action spy.');
   });
   QUnit.test('Should have a clear function.', function() {
-    sp.controls.registry.clear();
-    QUnit.ok(_.isNull(sp.controls.registry.control(name)),
+    registry.clear();
+    QUnit.ok(_.isNull(registry.control(name)),
       'Should have cleared registry.');
   });
-}());
+});

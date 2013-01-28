@@ -1,11 +1,13 @@
-(function() {
- var control, actionSpy, name, states, defaultState, testControl;
+define([
+    '../js/lib/module/side_controls/control'
+  ], function(Control) {
+  var control, actionSpy, name, states, defaultState, testControl;
   QUnit.module('Control', {
     setup: function() {
       $('#test').html('<div class="test-control"></div>');
       testControl = $('.test-control').get(0);
       name = 'foo';
-      sp.controls.Control.setControlNameOnElement(name, testControl);
+      Control.setControlNameOnElement(name, testControl);
       actionSpy = sinon.spy();
       states = [
         'apple',
@@ -13,13 +15,13 @@
         'banana'
       ];
       defaultState = 'orange';
-      control = new sp.controls.Control(name, actionSpy, states, defaultState);
+      control = new Control(name, actionSpy, states, defaultState);
     },
     teardown: function() {
     }
   });
-  QUnit.test('sp.container.Control should exist', function() {
-    QUnit.ok(sp.controls.Control, 'sp.controls.Control exists.');
+  QUnit.test('Control should exist', function() {
+    QUnit.ok(Control, 'Control exists.');
   });
   QUnit.test('Control should take a name.', function() {
     QUnit.strictEqual(control.name(),
@@ -69,14 +71,20 @@
   QUnit.test('Control should have a getControlNameFromElement static method.',
     function() {
       QUnit.strictEqual(
-        sp.controls.Control.getControlNameFromElement(testControl),
+        Control.getControlNameFromElement(testControl),
         name, 'Should have returned the correct control name.');
   });
   QUnit.test('Control have a setControlNameOnElement static method.',
     function() {
-      sp.controls.Control.setControlNameOnElement('bar', testControl);
+      Control.setControlNameOnElement('bar', testControl);
       QUnit.strictEqual(
-        sp.controls.Control.getControlNameFromElement(testControl),
+        Control.getControlNameFromElement(testControl),
         'bar', 'Should have returned the correct control name.');
   });
-}());
+  QUnit.test('Contro action should be passed an instance of the control.',
+    function() {
+      control.click();
+      QUnit.ok(actionSpy.calledWith(control),
+        'Should have been called with control.');
+  });
+});

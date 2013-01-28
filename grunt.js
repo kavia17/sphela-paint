@@ -5,7 +5,7 @@ module.exports = function(grunt) {
   grunt.initConfig({
     lint: {
       files: [
-        'paint/**/!(extern)/*.js',
+        'js/**/!(extern)/*.js',
         'grunt.js',
         'test/**/*.js'
       ]
@@ -41,12 +41,30 @@ module.exports = function(grunt) {
         history: true,
         $: false,
         console: false,
-        Template: true
+        require: false,
+        define: false,
+        Template: false
+      }
+    },
+    requirejs: {
+      compile: {
+        options: {
+          baseUrl: './js',
+          optimize: 'none',
+          out: 'paint/main.js',
+          findNestedDependencies: true,
+          name: '../almond',
+          preserveLicenseComments: false,
+          include: ['main']
+        }
       }
     }
   });
 
   // Default task.
+  grunt.loadNpmTasks('grunt-requirejs');
+
   grunt.registerTask('default', 'lint qunit');
+  grunt.registerTask('build', 'requirejs');
 
 };

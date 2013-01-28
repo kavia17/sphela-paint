@@ -2,14 +2,15 @@
 /**
  * @fileOverview The router is the history push state manager.
  */
-Meteor.startup(function() {
-  var Router;
+define([
+  './route'
+], function(Route) {
   /**
    * @constructor
    */
-  Router = function() {
+  function Router() {
     this.routes_ = {};
-  };
+  }
   /**
    * Just a wrapper for history.state so as to avoid history references all over
    * the place.
@@ -19,16 +20,16 @@ Meteor.startup(function() {
   };
   /**
    * The default route.
-   * @type {sp.Route}
+   * @type {Route}
    */
   Router.prototype.defaultRoute_ = null;
   /**
-   * @type {Object.<string,sp.Route>}
+   * @type {Object.<string,Route>}
    * @private
    */
   Router.prototype.routes_ = null;
   /**
-   * @param {sp.Route} route
+   * @param {Route} route
    */
   Router.prototype.setDefaultRoute = function(route) {
     this.defaultRoute_ = route;
@@ -42,7 +43,7 @@ Meteor.startup(function() {
    */
   Router.prototype.initModule = function(routeManager, path, opt_pathParser) {
     //routeManager gets a reference to the router for pushState loveliness.
-    this.routes_[path] = routeManager(new sp.Route(path, opt_pathParser), this);
+    this.routes_[path] = routeManager(new Route(path, opt_pathParser), this);
   };
   /**
    * Iterates through routes until it gets to a path that matches
@@ -82,5 +83,5 @@ Meteor.startup(function() {
     }
     route.run(path, state);
   };
-  sp.Router = Router;
+  return Router;
 });

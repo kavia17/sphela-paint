@@ -4,43 +4,13 @@
   <meta charset="utf-8">
   <title>Tests!</title>
   <link rel="stylesheet" href="/paint/public/css/extern/qunit.css">
-  <script src="/paint/public/js/extern/jquery.js"></script>
-  <script src="/paint/public/js/extern/underscore.js"></script>
-  <script src="/paint/public/js/extern/qunit.js"></script>
-  <script src="/paint/public/js/extern/sinon.js"></script>
-  <!-- shim file to help with testing -->
-  <script>
-    var Meteor;
-  </script>
+  <script src="/extern/jquery.js"></script>
+  <script src="/extern/underscore.js"></script>
+  <script src="/extern/qunit.js"></script>
+  <script src="/extern/sinon.js"></script>
+  <!-- shim to help with testing -->
   <script src="/test/meteorshim.js"></script>
-
-  <!-- Tested files (Should eventually be all files.)  -->
-  <script src="/paint/lib/include.js"></script>
-  <script src="/paint/lib/base.js"></script>
-  <script src="/paint/client/js/main.js"></script>
-  <script src="/paint/client/js/route.js"></script>
-  <script src="/paint/client/js/router.js"></script>
-  <script src="/paint/module/canvas_container/canvas_container.js"></script>
-  <script src="/paint/lib/models/canvas.js"></script>
-  <script src="/paint/module/side_controls/side_controls.js"></script>
-  <script src="/paint/module/side_controls/control/control.js"></script>
-  <script src="/paint/module/side_controls/registry.js"></script>
-
-  <!-- Test files -->
-  <script>
-    QUnit.testDone(function() {
-      // Clean up all HTML for the test.
-      $('#test').html('');
-    });
-  </script>
-  <script src="/test/base.js"></script>
-  <script src="/test/main.js"></script>
-  <script src="/test/router.js"></script>
-  <script src="/test/route.js"></script>
-  <script src="/test/canvas_container.js"></script>
-  <script src="/test/canvas_model.js"></script>
-  <script src="/test/control.js"></script>
-  <script src="/test/registry.js"></script>
+ <script data-main="test" src="/extern/require.js"></script>
 </head>
 <body>
   <div id="test"></div>

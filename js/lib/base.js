@@ -2,8 +2,9 @@
  * @fileOverview A library with shared resources.
  */
 var __global = this;
-Meteor.startup(function() {
-  sp.base = {
+define(function() {
+  var base;
+  base = {
     /**
      * A reference to the global scope.
      * @type {Object}
@@ -47,9 +48,10 @@ Meteor.startup(function() {
       Base.prototype = new Temp();
       Base.prototype.constructor = Base;
       Base.prototype.parent = function() {
-        return sp.base.parent.apply(this, arguments);
+        return base.parent.apply(this, arguments);
       };
     }
   };
+  return base;
 });
 
