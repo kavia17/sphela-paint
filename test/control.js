@@ -1,6 +1,7 @@
 define([
+    'jquery',
     '../js/lib/module/side_controls/control'
-  ], function(Control) {
+  ], function($, Control) {
   var control, actionSpy, name, states, defaultState, testControl;
   QUnit.module('Control', {
     setup: function() {
