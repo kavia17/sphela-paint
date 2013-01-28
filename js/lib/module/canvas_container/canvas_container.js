@@ -2,7 +2,8 @@
  * @fileOverview The canvas container is the main drawing area.
  */
 define([
-  ], function() {
+    'underscore'
+  ], function(_) {
   var ROUTER_PATH, container;
   /**
    * @type {string}

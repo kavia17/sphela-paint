@@ -1,6 +1,7 @@
 define([
+  'underscore',
   '../js/lib/base'
-  ], function(base) {
+  ], function(_, base) {
   var Parent;
   QUnit.module('base', {
     setup: function() {

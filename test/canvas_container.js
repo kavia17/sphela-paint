@@ -1,6 +1,7 @@
 define([
+    'underscore',
     '../js/lib/module/canvas_container/canvas_container'
-  ], function(container) {
+  ], function(_, container) {
   QUnit.module('Canvas Container', {
     setup: function() {
     },

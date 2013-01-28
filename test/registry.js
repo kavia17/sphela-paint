@@ -1,7 +1,8 @@
 define([
+    'underscore',
     '../js/lib/module/side_controls/control',
     '../js/lib/module/side_controls/registry'
-  ], function(Control, registry) {
+  ], function(_, Control, registry) {
   var controlStore, element, control, name, defaultState, states, action;
   defaultState = 'bar';
   states = ['apples', 'oranges', defaultState, 'banana'];

@@ -55,7 +55,16 @@ module.exports = function(grunt) {
           findNestedDependencies: true,
           name: '../almond',
           preserveLicenseComments: false,
-          include: ['main']
+          include: ['main'],
+          paths: {
+            underscore: '../extern/underscore',
+            jquery: '../extern/jquery'
+          },
+          shim: {
+            'underscore': {
+              exports: '_'
+            }
+          }
         }
       }
     }

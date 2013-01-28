@@ -1,4 +1,17 @@
+requirejs.config({
+  paths: {
+    underscore: '../extern/underscore',
+    jquery: '../extern/jquery'
+  },
+  shim: {
+    underscore: {
+      exports: '_'
+    }
+  }
+});
 require([
+  'jquery',
+  '../js/meteor',
   'base',
   'main',
   'router',
@@ -7,7 +20,9 @@ require([
   'canvas_model',
   'control',
   'registry'
-], function(base) {
+], function($, Meteor) {
+  // $() is a shortcut for $(document).ready in jQuery.
+  Meteor.startup = $;
   QUnit.testDone(function() {
     // Clean up all HTML for the test.
     $('#test').html('');

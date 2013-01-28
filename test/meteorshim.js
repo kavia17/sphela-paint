@@ -26,8 +26,6 @@ function clearMockContext() {
 }
 Meteor = {
   Collection: Collection,
-  // $() is a shortcut for $(document).ready in jQuery.
-  startup: $,
   deps: {Context: { current: null}},
   createMockContext: createMockContext,
   clearMockContext: clearMockContext,

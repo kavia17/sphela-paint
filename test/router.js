@@ -1,7 +1,8 @@
 define([
+  'underscore',
   '../js/lib/client/route',
   '../js/lib/client/router'
-], function(Route, Router) {
+], function(_, Route, Router) {
   var r, routeStore;
 
   function stubManager(x) {

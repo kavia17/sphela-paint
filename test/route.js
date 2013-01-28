@@ -1,6 +1,7 @@
 define([
+  'underscore',
   '../js/lib/client/route'
-  ], function(Route) {
+  ], function(_, Route) {
   var r, regexp;
   regexp = /foo\/(\w+)\/([0-9]*)\/?/;
   QUnit.module('Route', {

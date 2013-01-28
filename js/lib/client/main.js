@@ -2,8 +2,9 @@
  * @fileOverview Main entry point for the client side.
  */
 define([
+  'underscore'
 ],
-function() {
+function(_) {
   /**
    * @param {Array.<Function>} modules
    * @param {Function} Router

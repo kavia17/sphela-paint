@@ -1,7 +1,8 @@
 define([
+    'underscore',
     '../js/lib/models/canvases',
     '../js/lib/models/canvas'
-  ], function(Canvases, Canvas) {
+  ], function(_, Canvases, Canvas) {
   var canvas;
   QUnit.module('Canvas Model', {
     setup: function() {
