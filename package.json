@@ -3,11 +3,12 @@
   "version": "0.3.0",
   "author": "Bjorn Tipling <bjorn@ambientchill.com>",
   "scripts": {
-      "start": "node testserver.js"
+    "start": "node testserver.js"
   },
-  "dependencies": {
-      "express": ">=3",
-      "grunt-complexity": ">=0.0.6",
-      "grunt-requirejs": ">=0.3.1"
+  "devDependencies": {
+    "express": ">=3",
+    "grunt-complexity": ">=0.0.6",
+    "grunt-requirejs": ">=0.3.1"
+    "grunt-contrib-less": "~0.3.2"
   }
 }
