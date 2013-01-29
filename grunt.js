@@ -43,7 +43,8 @@ module.exports = function(grunt) {
         console: false,
         require: false,
         define: false,
-        Template: false
+        Template: false,
+        requirejs: false
       }
     },
     requirejs: {
@@ -67,13 +68,25 @@ module.exports = function(grunt) {
           }
         }
       }
+    },
+    less: {
+      development: {
+        options: {
+          paths: ['less'],
+          yuicompress: false
+        },
+        files: {
+          "paint/main.css": "less/app.less"
+        }
+      }
     }
   });
 
   // Default task.
   grunt.loadNpmTasks('grunt-requirejs');
+  grunt.loadNpmTasks('grunt-contrib-less');
 
-  grunt.registerTask('default', 'lint qunit');
+  grunt.registerTask('default', 'lint less qunit requirejs');
   grunt.registerTask('build', 'requirejs');
 
 };
