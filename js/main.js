@@ -7,10 +7,6 @@
  * A safe reference to the global object.
  * @type {Object};
  */
-var sp;
-sp = {
-  global: this
-};
 require([
   './meteor',
   './lib/module/canvas_container/canvas_container',
