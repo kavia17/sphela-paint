@@ -1,3 +1,4 @@
 node_modules
+.DS_Store
 paint/main.js
 paint/main.css
