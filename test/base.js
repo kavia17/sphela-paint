@@ -207,7 +207,7 @@ define([
       };
       instance = new SubChild('test');
       QUnit.throws(function() {
-        instance.setNoFoo(param);
+        instance.setNoFoo('foo');
       }, 'Calling non-existing inherited method should throw an error.');
   });
 });

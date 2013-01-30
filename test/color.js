@@ -1,6 +1,6 @@
 define([
   'underscore',
-  'session',
+  './session',
   '../js/lib/module/side_controls/color',
   '../js/lib/module/side_controls/toggle'
   ], function(_, Session, Color, Toggle) {

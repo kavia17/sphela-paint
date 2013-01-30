@@ -21,7 +21,8 @@ require([
   'control',
   'registry',
   'toggle',
-  'color'
+  'color',
+  'shape'
 ], function($, Meteor) {
   // $() is a shortcut for $(document).ready in jQuery.
   Meteor.startup = $;
