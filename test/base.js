@@ -67,14 +67,14 @@ define([
   });
   QUnit.test('base.parent should be able to call a constructor properly.',
     function() {
-      var child;
-      Parent = sinon.spy(Parent);
+      var child, Parent_;
+      Parent_ = sinon.spy(Parent);
       function Child() {
         Child.parent(this);
       }
-      base.inherits(Child, Parent);
+      base.inherits(Child, Parent_);
       child = new Child();
-      QUnit.ok(Parent.calledOnce, 'Should have called parent.');
+      QUnit.ok(Parent_.calledOnce, 'Should have called parent.');
   });
   QUnit.test('base.parent passes in arguments to a constructor.',
     function() {
@@ -135,7 +135,6 @@ define([
   QUnit.test('base.parent works with multiplelevels of inheritance.',
     function() {
       var param, instance;
-      sinon.spy(Parent);
       function Child(foo) {
         Child.parent(this, arguments);
       }
@@ -152,7 +151,6 @@ define([
   QUnit.test('Can call methods through multiple levels of inheritance.',
       function() {
       var param, instance;
-      sinon.spy(Parent);
       function Child(foo) {
         Child.parent(this, arguments);
       }
@@ -176,7 +174,6 @@ define([
   QUnit.test('Call to inherited methods from multiple levels down.',
     function() {
       var param, instance;
-      sinon.spy(Parent);
       function Child(foo) {
         Child.parent(this, arguments);
       }
@@ -197,7 +194,6 @@ define([
   QUnit.test('Call to non-existing method should throw an error.',
     function() {
       var instance;
-      sinon.spy(Parent);
       function Child(foo) {
         Child.parent(this, arguments);
       }
