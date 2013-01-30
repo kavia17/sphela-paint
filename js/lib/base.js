@@ -2,7 +2,9 @@
  * @fileOverview A library with shared resources.
  */
 var __global = this;
-define(function() {
+define([
+  'underscore'
+  ], function(_) {
   var base;
   base = {
     /**
@@ -20,18 +22,34 @@ define(function() {
      * constructor.
      * Call parent with 'this' as the argument to call a constructor.
      * Call parent with a method name as string to call the parent's method.
-     * @param {string|Object} methodOrConstructor
-     * @param {Object} context,
+     * @param {Function} constructor
+     * @param {Object} thisArg
+     * @param {string|Array=} opt_methodOrArgs
+     * @param {Array=} opt_args
      * @return {*}
      */
-    parent: function(methodOrConstructor, opt_args) {
-      var method;
-      if(methodOrConstructor === this) {
-        return this.constructor.parent_.apply(this, opt_args || []);
+    parent: function(Base, thisArg, opt_methodOrArgs, opt_args) {
+      var method, args, parent;
+      if (_.isString(opt_methodOrArgs)) {
+        method = opt_methodOrArgs;
+        args = opt_args || [];
+      } else {
+        args = opt_methodOrArgs || [];
       }
-      method = methodOrConstructor;
-      return this.constructor.parent_.prototype[method].apply(
-        this, opt_args || []);
+      if(_.isUndefined(method)) {
+        return Base.parent_.apply(thisArg, args);
+      }
+      parent = Base.parent_;
+      do {
+        if (_.isFunction(parent.prototype[method])) {
+          break;
+        }
+      } while (parent = parent.parent_);
+      if (_.isUndefined(parent)) {
+        throw 'Method ' + method + ' not defined on any parent.';
+      }
+      return parent.prototype[method].apply(
+        thisArg, args);
     },
     /**
      * A way to inherit from another class.
@@ -47,9 +65,7 @@ define(function() {
       Base.parent_ = Super;
       Base.prototype = new Temp();
       Base.prototype.constructor = Base;
-      Base.prototype.parent = function() {
-        return base.parent.apply(this, arguments);
-      };
+      Base.parent = _.bind(base.parent, this, Base);
     }
   };
   return base;

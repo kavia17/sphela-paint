@@ -70,7 +70,7 @@ define([
       var child;
       Parent = sinon.spy(Parent);
       function Child() {
-        this.parent(this);
+        Child.parent(this);
       }
       base.inherits(Child, Parent);
       child = new Child();
@@ -85,7 +85,7 @@ define([
        * @constructor
        */
       function Child(foo) {
-        this.parent(this, arguments);
+        Child.parent(this, arguments);
       }
       base.inherits(Child, Parent);
       child = new Child(expected);
@@ -101,11 +101,11 @@ define([
        * @constructor
        */
       function Child(foo) {
-        this.parent(this, arguments);
+        Child.parent(this, arguments);
       }
       base.inherits(Child, Parent);
       Child.prototype.foo = function() {
-        return this.parent('foo');
+        return Child.parent(this, 'foo');
       };
       child = new Child(expected);
       QUnit.strictEqual(child.foo(), expected,
@@ -120,17 +120,99 @@ define([
        * @constructor
        */
       function Child(foo) {
-        this.parent(this, arguments);
+        Child.parent(this, arguments);
       }
       base.inherits(Child, Parent);
       /** @inheritDoc */
       Child.prototype.setFoo = function(arg) {
-        return this.parent('setFoo', arguments);
+        return Child.parent(this, 'setFoo', arguments);
       };
       child = new Child('blahfoo');
       child.setFoo(expected);
       QUnit.strictEqual(child.givenArg, expected,
         'Should have called the parent\'s method with argument.');
+  });
+  QUnit.test('base.parent works with multiplelevels of inheritance.',
+    function() {
+      var param, instance;
+      sinon.spy(Parent);
+      function Child(foo) {
+        Child.parent(this, arguments);
+      }
+      base.inherits(Child, Parent);
+      function SubChild(foo) {
+        SubChild.parent(this, arguments);
+      }
+      base.inherits(SubChild, Child);
+      param = 'testsubchild';
+      instance = new SubChild(param);
+      QUnit.strictEqual(instance.foo(), param,
+        'Subchild constructor inheritance should work.');
+  });
+  QUnit.test('Can call methods through multiple levels of inheritance.',
+      function() {
+      var param, instance;
+      sinon.spy(Parent);
+      function Child(foo) {
+        Child.parent(this, arguments);
+      }
+      base.inherits(Child, Parent);
+      Child.prototype.setFoo = function(arg) {
+        Child.parent(this, 'setFoo', arguments);
+      };
+      function SubChild(foo) {
+        SubChild.parent(this, arguments);
+      }
+      base.inherits(SubChild, Child);
+      SubChild.prototype.setFoo = function(arg) {
+        Child.parent(this, 'setFoo', arguments);
+      };
+      param = 'testsubchild';
+      instance = new SubChild('test');
+      instance.setFoo(param);
+      QUnit.strictEqual(instance.givenArg, param,
+        'Subchild method inheritance should work.');
+  });
+  QUnit.test('Call to inherited methods from multiple levels down.',
+    function() {
+      var param, instance;
+      sinon.spy(Parent);
+      function Child(foo) {
+        Child.parent(this, arguments);
+      }
+      base.inherits(Child, Parent);
+      function SubChild(foo) {
+        SubChild.parent(this, arguments);
+      }
+      base.inherits(SubChild, Child);
+      SubChild.prototype.setFoo = function(arg) {
+        Child.parent(this, 'setFoo', arguments);
+      };
+      param = 'testsubchildfoo';
+      instance = new SubChild('test');
+      instance.setFoo(param);
+      QUnit.strictEqual(instance.givenArg, param,
+        'Subchild method inheritance should work though Child had no setFoo.');
+  });
+  QUnit.test('Call to non-existing method should throw an error.',
+    function() {
+      var instance;
+      sinon.spy(Parent);
+      function Child(foo) {
+        Child.parent(this, arguments);
+      }
+      base.inherits(Child, Parent);
+      function SubChild(foo) {
+        SubChild.parent(this, arguments);
+      }
+      base.inherits(SubChild, Child);
+      SubChild.prototype.setNoFoo = function(arg) {
+        Child.parent(this, 'setNoFoo', arguments);
+      };
+      instance = new SubChild('test');
+      QUnit.throws(function() {
+        instance.setNoFoo(param);
+      }, 'Calling non-existing inherited method should throw an error.');
   });
 });
 

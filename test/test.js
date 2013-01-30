@@ -19,7 +19,9 @@ require([
   'canvas_container',
   'canvas_model',
   'control',
-  'registry'
+  'registry',
+  'toggle',
+  'color'
 ], function($, Meteor) {
   // $() is a shortcut for $(document).ready in jQuery.
   Meteor.startup = $;
