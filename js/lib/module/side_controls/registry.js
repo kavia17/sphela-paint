@@ -15,6 +15,7 @@ define([
      */
     registry = {
       /**
+       * Create, add and return new basic control.
        * @param {name}
        * @param {Array} states
        * @param {string} defaultState
@@ -22,13 +23,27 @@ define([
        * @param {Function} action
        * @return {Control}
        */
-      addControl: function(name, states, defaultState, element, action) {
+      createControl: function(name, states, defaultState, element, action) {
         if (_.has(controls, name)) {
           throw 'Registry already has that control: ' + name;
         }
         Control.setControlNameOnElement(name, element);
         return controls[name] = new Control(name, action,
           states, defaultState);
+      },
+      /**
+       * Add and return an existing control.
+       * @param {Control} control
+       * @param {Element} element
+       */
+      addControl: function(control, element) {
+        var name;
+        name = control.name();
+        if (_.has(controls, name)) {
+          throw 'Registry already has that control: ' + name;
+        }
+        Control.setControlNameOnElement(name, element);
+        return controls[name] = control;
       },
       /**
        * @param {string}

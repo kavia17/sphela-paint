@@ -3,7 +3,10 @@
  * container.
  */
 define([
-], function() {
+  './registry',
+  './color',
+  './shape'
+], function(registry, shape) {
   var controls;
   controls = {};
   /**
